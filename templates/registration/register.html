@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    register
+{% endblock title %}
+    
+{% block content %}
+
+<div >
+  <h1>sing up</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="username">username</label>
+    <input type="text" name="username" id="user"><br>
+    <label for="email">email</label>
+    <input type="email" name="email" id="email"><br>
+    <label for="password">password</label>
+    <input type="password" name="password" id="pass"><br>
+    <label for="cpassword">conform password</label>
+    <input type="password" name="confirm_password" ><br>
+    <button type="submit" name="Submit">login</button>
+    <button type="reset">reset</button>
+</form>
+</div>
+{% endblock %}
