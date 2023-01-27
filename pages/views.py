@@ -3,6 +3,8 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 
 #user agil pass agil123
@@ -24,6 +26,8 @@ def login(request):
 def register(request):
     if request.method == 'POST':
         username = request.POST['username']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
@@ -36,7 +40,7 @@ def register(request):
                 messages.info(request, 'Email Taken')
                 return redirect('register')
             else:
-                user = User.objects.create_user(username=username, email=email, password=password)
+                user = User.objects.create_user(username=username, first_name=first_name,last_name=last_name,email=email, password=password)
                 user.save()
     				
                 return redirect('/')
@@ -46,3 +50,13 @@ def register(request):
             return redirect('register')
     else:
         return render(request, 'registration/register.html',{'messages':messages})
+
+def chagepass(request):
+    if request.method == 'POST':
+        chageform =PasswordChangeForm(user=request.user,data=request.POST)
+        if chageform.is_valid:
+            chageform.save()
+            return render('login')
+    else:
+        chageform = PasswordChangeForm(user=request.user)
+    return render(request, 'registration/changepass.html',{'form':chageform})
